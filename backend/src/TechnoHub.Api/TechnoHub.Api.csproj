@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <RootNamespace>TechnoHub.Api</RootNamespace>
+    <UserSecretsId>technohub-api-staff-auth</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <!--
+      Deliberately no Microsoft.AspNetCore.OpenApi reference: it depends on Microsoft.OpenApi 2.x,
+      which would win the transitive version conflict and break Swashbuckle 7.x at runtime.
+      Swashbuckle is the only OpenAPI generator here.
+    -->
+    <PackageReference Include="Swashbuckle.AspNetCore" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+    <PackageReference Include="Serilog.AspNetCore" />
+    <PackageReference Include="Serilog.Settings.Configuration" />
+    <PackageReference Include="Serilog.Sinks.Console" />
+    <PackageReference Include="Serilog.Sinks.File" />
+    <!-- Present so `dotnet ef` can use this project as the startup project. -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TechnoHub.Infrastructure\TechnoHub.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

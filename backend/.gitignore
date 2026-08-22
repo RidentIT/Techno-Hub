@@ -1,0 +1,19 @@
+## Build output
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+artifacts/
+
+## Rider / VS / VS Code
+.vs/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Local secrets — never commit. Use `dotnet user-secrets` or environment variables.
+appsettings.Local.json
+appsettings.*.Local.json
+*.pfx

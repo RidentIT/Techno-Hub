@@ -1,0 +1,30 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = crlf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+
+[*.{cs,csx}]
+indent_size = 4
+# Treat "variable declared but never used" and unreachable code as errors, not suggestions.
+dotnet_diagnostic.CS0168.severity = warning
+dotnet_diagnostic.CS0219.severity = warning
+csharp_using_directive_placement = outside_namespace:warning
+csharp_style_namespace_declarations = file_scoped:warning
+csharp_prefer_braces = true:warning
+dotnet_sort_system_directives_first = true
+
+[*.{csproj,props,targets,json,yml,yaml}]
+indent_size = 2
+
+[*.{ts,tsx,js,jsx,mjs,cjs,css}]
+indent_size = 2
+
+[*.sln]
+indent_style = tab
+
+[*.md]
+trim_trailing_whitespace = false
