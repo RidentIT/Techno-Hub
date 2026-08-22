@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>TechnoHub.Domain</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--
+      The only dependency in the domain layer. Needed because ApplicationUser/ApplicationRole
+      extend ASP.NET Core Identity's base entities. This is the abstractions + store contracts
+      package only — it pulls in no EF Core, no database provider and no web stack.
+    -->
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" />
+  </ItemGroup>
+
+</Project>

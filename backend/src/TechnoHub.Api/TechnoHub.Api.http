@@ -1,0 +1,89 @@
+@host = http://localhost:5080
+
+### Health check — no auth
+GET {{host}}/health
+
+### Log in as the seeded Admin.
+# Replace with your SeedAdmin__Email / SeedAdmin__Password values.
+# @name login
+POST {{host}}/api/staff/auth/login
+Content-Type: application/json
+
+{
+  "emailOrUsername": "admin@technohub.local",
+  "password": "ChangeMe!2026"
+}
+
+### Current user — profile, role and scopes
+@accessToken = {{login.response.body.accessToken}}
+
+GET {{host}}/api/staff/auth/me
+Authorization: Bearer {{accessToken}}
+
+### The assignable scope catalogue, grouped by module
+GET {{host}}/api/staff/scopes
+Authorization: Bearer {{accessToken}}
+
+### List all staff accounts (needs staff.view, or the Admin role)
+GET {{host}}/api/staff/users
+Authorization: Bearer {{accessToken}}
+
+### Create a Technician. Omitting "scopes" grants the repairs defaults.
+POST {{host}}/api/staff/auth/register
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "email": "tech1@technohub.local",
+  "fullName": "Nimal Perera",
+  "phoneNumber": "+94 77 123 4567",
+  "password": "Repair!Bench7",
+  "role": "Technician"
+}
+
+### Create a general User with two explicit scopes.
+POST {{host}}/api/staff/auth/register
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "email": "counter1@technohub.local",
+  "fullName": "Sanduni Fernando",
+  "password": "FrontDesk!91",
+  "role": "User",
+  "scopes": [ "inventory.view", "sales.manage" ]
+}
+
+### Replace a user's scopes. The list is absolute — send [] to strip everything.
+# Paste a real id from GET /api/staff/users.
+@targetUserId = 00000000-0000-0000-0000-000000000000
+
+PATCH {{host}}/api/staff/users/{{targetUserId}}/scopes
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "scopes": [ "inventory.view", "inventory.manage", "reports.view" ]
+}
+
+### Soft-disable a staff account. Never hard-deleted.
+PATCH {{host}}/api/staff/users/{{targetUserId}}/status
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "isActive": false,
+  "reason": "Left the company"
+}
+
+### Refresh. Uses the httpOnly cookie set by login; the body is the fallback.
+POST {{host}}/api/staff/auth/refresh
+Content-Type: application/json
+
+{}
+
+### Log out — revokes the refresh token and clears the cookie.
+POST {{host}}/api/staff/auth/logout
+Content-Type: application/json
+
+{}
